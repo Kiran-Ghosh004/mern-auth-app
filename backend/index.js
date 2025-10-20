@@ -11,7 +11,7 @@ const PORT = process.env.PORT || 8080;
 
 // Enable CORS for all origins (you can restrict later)
 app.use(cors({
-    origin: "http://localhost:5173", // your frontend
+    origin: "https://mern-auth-app-sigma.vercel.app", // your frontend
     methods: ["GET", "POST", "PUT", "DELETE"],
     allowedHeaders: ["Content-Type", "Authorization"]
 }));
