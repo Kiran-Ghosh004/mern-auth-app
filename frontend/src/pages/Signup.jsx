@@ -1,71 +1,51 @@
 import { Link ,useNavigate} from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
-import { useState, useEffect, use } from 'react';
+import { useState } from 'react';
 import { notifyError, notifySuccess } from '../utils.js';
 
 
 
 const Signup = () => {
-    const navigate=useNavigate();
-    
+    const navigate = useNavigate();
+
     const [signupData, setSignupData] = useState({
         name: "",
         email: "",
         password: ""
     });
-    const [submitClicked, setSubmitClicked] = useState(false);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
-        setSignupData(prev => ({ ...prev, [name]: value }));
+        setSignupData({ ...signupData, [name]: value });
     };
 
-    const handleSignup = (e) => {
+    const handleSignup = async (e) => {
         e.preventDefault();
         const { name, email, password } = signupData;
 
-        if (name === "" || email === "" || password === "") {
+        if (!name || !email || !password)
             return notifyError("All fields are required");
-        }
 
-        setSubmitClicked(true);
-    };
+        try {
+            const res = await fetch("http://localhost:8080/auth/signup", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(signupData)
+            });
 
-    useEffect(() => {
-        if (!submitClicked) return;
+            const result = await res.json();
 
-        const signupUser = async () => {
-            try {
-                const url = "http://localhost:8080/auth/signup";
-                const res = await fetch(url, {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
-                    body: JSON.stringify(signupData)
-                });
-
-                const result = await res.json();
-
-                if (res.ok) {
-                    notifySuccess("Signup successful!");
-                    setSignupData({ name: "", email: "", password: "" });
-                    setTimeout(()=>{
-                        navigate('/login');
-                    },1500);
-                } else {
-                    notifyError(result.message || "Signup failed");
-                }
-
-            } catch (err) {
-                notifyError("Something went wrong");
-            } finally {
-                setSubmitClicked(false);
+            if (res.ok) {
+                notifySuccess("Signup successful!");
+                setSignupData({ name: "", email: "", password: "" });
+                setTimeout(() => navigate("/login"), 1500);
+            } else {
+                notifyError(result.message || "Signup failed");
             }
-        };
-
-        signupUser();
-    }, [submitClicked, signupData]);
+        } catch (err) {
+            notifyError("Something went wrong");
+        }
+    };
 
     return (
         <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-black to-gray-900">
