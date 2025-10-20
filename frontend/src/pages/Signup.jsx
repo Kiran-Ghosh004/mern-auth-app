@@ -1,15 +1,19 @@
-import { Link } from 'react-router-dom';
+import { Link ,useNavigate} from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, use } from 'react';
 import { notifyError, notifySuccess } from '../utils.js';
 
+
+
 const Signup = () => {
+    const navigate=useNavigate();
+    
     const [signupData, setSignupData] = useState({
         name: "",
         email: "",
         password: ""
     });
-    const [submitClicked, setSubmitClicked] = useState(false); // Track submit
+    const [submitClicked, setSubmitClicked] = useState(false);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -24,7 +28,7 @@ const Signup = () => {
             return notifyError("All fields are required");
         }
 
-        setSubmitClicked(true); // Trigger useEffect
+        setSubmitClicked(true);
     };
 
     useEffect(() => {
@@ -45,7 +49,10 @@ const Signup = () => {
 
                 if (res.ok) {
                     notifySuccess("Signup successful!");
-                    // Redirect to login or clear form
+                    setSignupData({ name: "", email: "", password: "" });
+                    setTimeout(()=>{
+                        navigate('/login');
+                    },1500);
                 } else {
                     notifyError(result.message || "Signup failed");
                 }
@@ -53,83 +60,77 @@ const Signup = () => {
             } catch (err) {
                 notifyError("Something went wrong");
             } finally {
-                setSubmitClicked(false); // Reset
+                setSubmitClicked(false);
             }
         };
 
         signupUser();
-    }, [submitClicked, signupData]); // Runs only when submitClicked becomes true
+    }, [submitClicked, signupData]);
 
     return (
-        <div className="min-h-screen flex items-center justify-center bg-gradient-to-r from-blue-100 to-purple-100">
-            <div className="w-full max-w-md bg-white p-10 rounded-2xl shadow-xl">
-                <h2 className="text-3xl font-bold text-gray-800 text-center mb-8">Create Account</h2>
+        <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-black to-gray-900">
+            <div className="w-full max-w-md bg-neutral-900 p-10 rounded-2xl shadow-lg border border-gray-700">
+                <h2 className="text-3xl font-semibold text-white text-center mb-8">
+                    Create Account
+                </h2>
+
                 <form className="space-y-6" onSubmit={handleSignup}>
                     {/* Name Field */}
-                    <div className="relative">
+                    <div className="flex flex-col">
+                        <label className="text-gray-300 mb-1 text-sm">Name</label>
                         <input
                             onChange={handleChange}
                             type="text"
-                            placeholder=" "
                             name="name"
                             value={signupData.name}
-                            className="peer w-full px-4 py-3 border-b-2 border-gray-300 focus:border-blue-500 outline-none transition"
+                            className="w-full px-4 py-3 bg-gray-800 text-white rounded-lg border border-gray-700 focus:outline-none focus:border-blue-500"
                         />
-                        <label className="absolute left-4 top-3 text-gray-400 text-sm transition-all peer-placeholder-shown:top-3 peer-placeholder-shown:text-gray-400 peer-placeholder-shown:text-base peer-focus:top-0 peer-focus:text-blue-500 peer-focus:text-sm">
-                            Name
-                        </label>
                     </div>
 
                     {/* Email Field */}
-                    <div className="relative">
+                    <div className="flex flex-col">
+                        <label className="text-gray-300 mb-1 text-sm">Email</label>
                         <input
                             onChange={handleChange}
                             type="email"
-                            placeholder=" "
                             name="email"
-                            autoFocus
                             value={signupData.email}
-                            className="peer w-full px-4 py-3 border-b-2 border-gray-300 focus:border-blue-500 outline-none transition"
+                            className="w-full px-4 py-3 bg-gray-800 text-white rounded-lg border border-gray-700 focus:outline-none focus:border-blue-500"
                         />
-                        <label className="absolute left-4 top-3 text-gray-400 text-sm transition-all peer-placeholder-shown:top-3 peer-placeholder-shown:text-gray-400 peer-placeholder-shown:text-base peer-focus:top-0 peer-focus:text-blue-500 peer-focus:text-sm">
-                            Email
-                        </label>
                     </div>
 
                     {/* Password Field */}
-                    <div className="relative">
+                    <div className="flex flex-col">
+                        <label className="text-gray-300 mb-1 text-sm">Password</label>
                         <input
                             onChange={handleChange}
                             type="password"
-                            placeholder=" "
-                            name='password'
+                            name="password"
                             value={signupData.password}
-                            className="peer w-full px-4 py-3 border-b-2 border-gray-300 focus:border-blue-500 outline-none transition"
+                            className="w-full px-4 py-3 bg-gray-800 text-white rounded-lg border border-gray-700 focus:outline-none focus:border-blue-500"
                         />
-                        <label className="absolute left-4 top-3 text-gray-400 text-sm transition-all peer-placeholder-shown:top-3 peer-placeholder-shown:text-gray-400 peer-placeholder-shown:text-base peer-focus:top-0 peer-focus:text-blue-500 peer-focus:text-sm">
-                            Password
-                        </label>
                     </div>
 
                     <button
                         type="submit"
-                        className="w-full bg-gradient-to-r from-blue-500 to-purple-500 text-white py-3 rounded-xl font-semibold shadow-md hover:shadow-lg transform hover:-translate-y-1 transition-all"
+                        className="w-full bg-blue-600 text-white py-3 rounded-lg font-medium hover:bg-blue-700"
                     >
                         Sign Up
                     </button>
 
-                    <div className="text-center mt-4 text-gray-500 text-sm">
+                    <div className="text-center mt-4 text-gray-400 text-sm">
                         <span>
                             Already have an account?{' '}
                             <Link
                                 to="/login"
-                                className="text-blue-500 font-medium hover:underline hover:text-blue-600 transition"
+                                className="text-blue-400 font-medium hover:underline"
                             >
                                 Login
                             </Link>
                         </span>
                     </div>
                 </form>
+
                 <ToastContainer />
             </div>
         </div>
