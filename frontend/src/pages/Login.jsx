@@ -32,7 +32,10 @@ const Login = () => {
             const result = await res.json();
 
             if (res.ok) {
+                const { token, name } = result; // destructure here
                 notifySuccess("Login successful!");
+                localStorage.setItem("token", token); // store token
+                localStorage.setItem("loggedInUser", name); // store user name
                 setLoginData({ email: "", password: "" });
                 setTimeout(() => navigate("/home"), 1500);
             } else {

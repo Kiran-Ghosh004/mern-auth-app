@@ -5,20 +5,27 @@ require('./models/db');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const authRouter = require('./routes/authRouter');
-const productRouer = require('./routes/productRouter');
+const productRouter = require('./routes/productRouter'); // fixed typo
 
-const PORT = process.env.port || 8080;
+const PORT = process.env.PORT || 8080;
+
+// Enable CORS for all origins (you can restrict later)
+app.use(cors({
+    origin: "http://localhost:5173", // your frontend
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    allowedHeaders: ["Content-Type", "Authorization"]
+}));
+
+// Parse JSON bodies
+app.use(bodyParser.json());
+
+// Routes
+app.use('/auth', authRouter);
+app.use('/products', productRouter);
 
 app.get('/', (req, res) => {
     res.send('Hello World!');
-
 });
-
-app.use('/products',productRouer);
-app.use(bodyParser.json());
-app.use(cors());
-app.use('/auth', authRouter);
-
 
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
