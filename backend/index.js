@@ -10,11 +10,12 @@ const productRouter = require('./routes/productRouter'); // fixed typo
 const PORT = process.env.PORT || 8080;
 
 // Enable CORS for all origins (you can restrict later)
-app.use(cors({
-    origin: "https://mern-auth-app-sigma.vercel.app", // your frontend
-    methods: ["GET", "POST", "PUT", "DELETE"],
-    allowedHeaders: ["Content-Type", "Authorization"]
-}));
+// app.use(cors({
+//     origin: "https://mern-auth-app-sigma.vercel.app", // your frontend
+//     methods: ["GET", "POST", "PUT", "DELETE"],
+//     allowedHeaders: ["Content-Type", "Authorization"]
+// }));
+app.use(cors)
 
 // Parse JSON bodies
 app.use(bodyParser.json());

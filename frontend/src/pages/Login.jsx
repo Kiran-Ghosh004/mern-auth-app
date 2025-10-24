@@ -23,7 +23,7 @@ const Login = () => {
         if (!email || !password) return notifyError("All fields are required");
 
         try {
-            const res = await fetch("authapi-red.vercel.app/auth/login", {
+            const res = await fetch("http://localhost:8080/auth/login", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(loginData)

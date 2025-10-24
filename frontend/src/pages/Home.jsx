@@ -26,7 +26,7 @@ const Home = () => {
   // Fetch products from backend
   const getProducts = async (token) => {
     try {
-      const url = "authapi-red.vercel.app/products";
+      const url = "http://localhost:8080/products";
       const res = await fetch(url, {
         method: "GET",
         headers: {
