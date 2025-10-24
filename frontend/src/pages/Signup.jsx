@@ -27,7 +27,7 @@ const Signup = () => {
             return notifyError("All fields are required");
 
         try {
-            const res = await fetch("http://localhost:8080/auth/signup", {
+            const res = await fetch("https://mern-auth-app-eta.vercel.app/auth/signup", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(signupData)
