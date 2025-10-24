@@ -35,7 +35,7 @@ const login= async (req, res) => {
         if(!isPasswordValid){
             return res.status(403).send({message:" password not correct",sucess:false});
         }
-        const jwtToken=jwt.sign({id:user._id},process.env.secrete_key,{expiresIn:'3h'});
+        const jwtToken = jwt.sign({id: user._id}, process.env.SECRET_KEY, {expiresIn: '3h'});
         res.status(200).send({message:"Login successful",sucess:true,token:jwtToken,email,name:user.name});
 
        

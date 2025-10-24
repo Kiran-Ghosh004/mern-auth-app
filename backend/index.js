@@ -5,22 +5,17 @@ require('./models/db');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const authRouter = require('./routes/authRouter');
-const productRouter = require('./routes/productRouter'); // fixed typo
+const productRouter = require('./routes/productRouter');
 
 const PORT = process.env.PORT || 8080;
 
-// Enable CORS for all origins (you can restrict later)
-// app.use(cors({
-//     origin: "https://mern-auth-app-sigma.vercel.app", // your frontend
-//     methods: ["GET", "POST", "PUT", "DELETE"],
-//     allowedHeaders: ["Content-Type", "Authorization"]
-// }));
-app.use(cors)
+// ✅ FIX 1: call cors() — it’s a function
+app.use(cors());
 
-// Parse JSON bodies
+// ✅ FIX 2: Parse JSON bodies
 app.use(bodyParser.json());
 
-// Routes
+// ✅ Routes
 app.use('/auth', authRouter);
 app.use('/products', productRouter);
 
@@ -29,5 +24,6 @@ app.get('/', (req, res) => {
 });
 
 app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`);
+    // ✅ Clickable link
+    console.log(`🚀 Server is running on: http://localhost:${PORT}`);
 });
