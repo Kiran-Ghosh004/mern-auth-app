@@ -5,5 +5,5 @@ import tailwindcss from '@tailwindcss/vite'
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [react(), tailwindcss()],
-  base: './', // ✅ Important for correct relative paths on Vercel
+  base: './home', // ✅ Important for correct relative paths on Vercel
 })
